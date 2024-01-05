@@ -134,6 +134,7 @@ export class EntriesComponent implements OnInit, AfterViewInit {
     this.selectedYear = event;
     this.getEntries(this.selectedMonth, this.selectedYear);
   }
+  
 
   getProducts() {
     this.contService.getProducts().subscribe((res) => {
