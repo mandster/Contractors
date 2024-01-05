@@ -1,0 +1,100 @@
+<div
+    class="container"
+  >
+    <div class="heading">Choose date and employee</div>
+
+    <form
+      name="productForm"
+      [formGroup]="fg"
+      class="form-inline mt-2 mt-md-0"
+      (ngSubmit)="getEntries()"
+    >
+
+      <mat-card>
+        <select
+        style="padding: 3px;"
+        formControlName="selectedMonth"
+      >
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+      &nbsp;
+      &nbsp;
+      <select
+        style="padding: 3px; "
+        formControlName="selectedYear"
+      >
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+        <option value="2030">2030</option>
+        <option value="2031">2031</option>
+        <option value="2032">2032</option>
+        <option value="2033">2033</option>
+        <option value="2034">2034</option>
+        <option value="2035">2035</option>
+        <option value="2036">2036</option>
+        <option value="2037">2037</option>
+        <option value="2038">2038</option>
+      </select>
+
+      <select style="padding: 3px; margin-top: 8px; "  formControlName="employeeId" class="form-select">
+        <option [selected]="true">Select employee</option>
+        <option *ngFor="let employee of employees" value="{{ employee.docId }}">
+          {{ employee.data.employeeName }}
+        </option>
+      </select>
+        <mat-card-actions>
+          <button mat-raised-button type="submit" style="margin-left: 8px; " color="warn" >Get records</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+<br />
+<div class="container" style="align-content: center;"  >
+<table mat-table matSort class="mat-elevation-z8" [dataSource]="dataSource" style="width: 100%;" >
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+    <td mat-cell *matCellDef="let finalData">{{ finalData.date }}</td>
+  </ng-container>
+  <ng-container matColumnDef="productName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Product</th>
+    <td mat-cell *matCellDef="let finalData">{{ finalData.productName }}</td>
+  </ng-container>
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+    <td mat-cell *matCellDef="let finalData">{{ finalData.quantity }}</td>
+  </ng-container>
+  <ng-container matColumnDef="rate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate</th>
+    <td mat-cell *matCellDef="let finalData">{{ finalData.rate }}</td>
+  </ng-container>
+  <ng-container matColumnDef="rowTotal">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Row Total</th>
+    <td mat-cell *matCellDef="let finalData">{{ finalData.rowTotal | number }}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let finalData; columns: displayedColumns"></tr>
+</table>
+<mat-card  style="background-color: rgb(250, 226, 119);">
+<mat-card-actions>
+  <b> Total: {{ totalCalc | number }}</b>
+</mat-card-actions>
+</mat-card>
+
+</div>
+</div>

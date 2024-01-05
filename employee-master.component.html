@@ -1,0 +1,148 @@
+<div class="container" >
+  <div class="heading">Add new Employee</div>
+  <form
+    name="productForm"
+    [formGroup]="fg"
+    class="form-inline mt-2 mt-md-0"
+    (ngSubmit)="addNewEmployee()"
+  >
+    <input
+      type="text"
+      formControlName="employeeName"
+      placeholder="Employee Name"
+      style="width: 300px; padding: 3px; margin: 3px"
+      class="form-control"
+    />
+    <select formControlName="priceCategory" class="form-control"
+    style="width: 300px; padding: 3px; margin: 3px"
+    >
+    <option value="0">Select price category</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+    <input
+      type="text"
+      formControlName="definition"
+      placeholder="Definition"
+      style="width: 300px; padding: 3px; margin: 3px"
+      class="form-control"
+    />
+    <div style="text-align: right; margin-top: 5px; width: 312px">
+      <input type="submit" name="btn" value="Add" [disabled]="!fg.valid" />
+    </div>
+  </form>
+  <div *ngIf="success" class="notifier">Employee successfully added!</div>
+</div>
+<br>
+<div *ngIf="editEmployeeForm" class="container" style="background-color: whitesmoke;">
+  <form
+    name="productForm"
+    [formGroup]="fEdit"
+    class="form-inline mt-2 mt-md-0"
+    (ngSubmit)="editEmployee()"
+  >
+    <table>
+      <tr>
+        <th>Employee Name</th>
+        <th>Price Category</th>
+        <th>Definition</th>
+      </tr>
+      <tr>
+          <input
+            type="hidden"
+            formControlName="employeeId"
+            style="width: 100px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+
+        <td>
+          <input
+            type="text"
+            formControlName="employeeName"
+            style="width: 400px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+        </td>
+        <td>
+          <select formControlName="priceCategory" class="form-control">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </td>
+        <td>
+          <input
+            type="text"
+            formControlName="definition"
+            style="width: 100px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <tr>
+            <td>
+              <input
+                type="submit"
+                name="btn"
+                value="Submit"
+                style="margin-left: 5px"
+                class="nice-button"
+              />
+            </td>
+            <td>
+              <input
+                type="button"
+                name="btn"
+                value="Cancel"
+                style="margin-left: 5px; background-color: red; border:1px solid rgb(77, 5, 5); padding: 3px; color:snow "
+                class="nice-button"
+                (click)="editEmployeeForm = false"
+              />
+            </td>
+          </tr>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+<br>
+<div class="container" style="background-color:rgb(235, 231, 231); padding:1px; border-radius: 8px;" >
+  <div class="heading">Existing Employees </div>
+  <table class="table-heading" style="width: 100%; padding: 3px; background-color: rgb(163, 159, 159);">
+    <tr  style="border: 0px solid gray; background-color:lightgray;color: rgb(77, 75, 75); padding: 3px;">
+        <th width="250px">
+          Name
+        </th>
+        <th>
+        Price Category
+        </th>
+        <th class="ml-3">
+          Actions
+        </th>
+      </tr>
+      <tr *ngFor="let employee of employees" style="color:rgb(39, 39, 39); border-bottom: 1px solid rgb(136, 134, 134); padding: 3px; background-color: white;" >
+        <td width="250px" style="margin-left: 3px;">
+       <span style="margin-left: 3px;">   {{ employee.data.employeeName }}</span>
+        </td>
+        <td  width="150px">
+          {{ employee.data.priceCategory }}
+        </td>
+        <td>
+          <input
+            type="button"
+            class="nice-button"
+            value="Edit"
+            (click)="preEditEmployee(employee.docId, employee.data.employeeName, employee.data.priceCategory, employee.data.definition)"
+          />
+          <input type="button" class="nice-button" value="Delete" (click)="deleteEmployee(employee.docId)" />
+        </td>
+      </tr>
+    </table>
+  </div>
+<br>
+

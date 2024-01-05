@@ -1,0 +1,194 @@
+<div class="container">
+  <div class="heading">Add new Entry</div>
+  <form
+    name="productForm"
+    [formGroup]="fg"
+    class="form-inline mt-2 mt-md-0"
+    (ngSubmit)="addNewPrice()"
+  >
+  
+    <!-- <select formControlName="employeeId" class="form-control">
+      <option *ngFor="let employee of employees" value="{{ employee.docId }}">
+        {{ employee.data.employeeName }}
+      </option>
+    </select> -->
+
+    <select formControlName="productId" class="form-control" style="width: 300px;">
+      <option *ngFor="let product of products" value="{{ product.docId }}">
+        {{ product.productName }}
+      </option>
+    </select>
+    <input
+      type="text"
+      formControlName="price"
+      placeholder="Price category 1"
+      style="width: 150px; padding: 3px; margin: 3px"
+      class="form-control"
+    />
+    <input
+    type="text"
+    formControlName="price2"
+    placeholder="Price category 2"
+    style="width: 150px; padding: 3px; margin: 3px"
+    class="form-control"
+  />
+  <input
+  type="text"
+  formControlName="price3"
+  placeholder="Price category 3"
+  style="width: 150px; padding: 3px; margin: 3px"
+  class="form-control"
+/>
+<input
+type="text"
+formControlName="comments"
+placeholder="Additional info"
+style="width: 550px; padding: 3px; margin: 3px"
+class="form-control"
+/>
+    <input type="submit" name="btn" value="Add" style="margin-left: 15px" />
+  </form>
+  <div *ngIf="success" class="notifier">Employee successfully added!</div>
+</div>
+<br />
+<div *ngIf="editPriceForm" class="container" style="background-color: whitesmoke;">
+  <form
+    name="productForm"
+    [formGroup]="fEdit"
+    class="form-inline mt-2 mt-md-0"
+    (ngSubmit)="editPrice()"
+  >
+    <table>
+      <tr>
+        <th>Product</th>
+        <th>Price categoty 1</th>
+        <th>Price category 2</th>
+      </tr>
+      <tr>
+          <input
+            type="hidden"
+            formControlName="priceId"
+            style="width: 100px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+        <input
+        type="hidden"
+        formControlName="productId"
+        style="width: 100px; padding: 3px; margin: 3px"
+        class="form-control"
+      />
+
+        <td>
+          <input
+            type="text"
+            formControlName="productName"
+            style="width: 400px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            formControlName="price"
+            style="width: 100px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            formControlName="price2"
+            style="width: 100px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <tr>
+            <td>
+              <input
+                type="submit"
+                name="btn"
+                value="Submit"
+                style="margin-left: 5px"
+                class="nice-button"
+              />
+            </td>
+            <td>
+              <input
+                type="button"
+                name="btn"
+                value="Cancel"
+                style="margin-left: 5px; background-color: red; border:1px solid rgb(77, 5, 5); padding: 3px; color:snow "
+                class="nice-button"
+                (click)="editPriceForm = false"
+              />
+            </td>
+          </tr>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+<br>
+<div class="container">
+
+  <table
+    style="width: 100%; padding: 5px; border: 1px solid grey; background-color: rgb(227, 242, 252);"
+    *ngIf="successData"
+  >
+    <tr
+      style="
+        border: 0px solid grey;
+        margin-left: 5px;
+        width: 100%;
+        color: rgb(75, 73, 73);
+        background-color: white;
+      "
+    >
+      <th>Product</th>
+      <th>Rate Category 1</th>
+      <th>Rate Category 2</th>
+      <th>Actions</th>
+    </tr>
+    <tr
+      *ngFor="let price of finalData"
+      style="
+        border: 1px solid grey;
+        margin-left: 5px;
+        width: 70%;
+        color: rgb(27, 27, 27);
+      "
+    >
+      <td >
+       <span class="ml-4"> {{ price.productName }}</span>
+      </td>
+      <td>
+        {{ price.price }}
+      </td>
+      <td>
+        {{ price.price2 }}
+      </td>
+      <td>
+        <input
+          type="button"
+          class="nice-button"
+          value="Edit"
+          (click)="
+            preEditPrice(
+              price.docId,
+              price.productName,
+              price.price,
+              price.price2
+            )
+          "
+        />
+        <input type="button" class="nice-button" value="Delete" (click)="deletePrice(price.docId)" />
+      </td>
+    </tr>
+  </table>
+  <div *ngIf="deleteSuccess" class="notifier">Deleted!</div>
+
+
+</div>

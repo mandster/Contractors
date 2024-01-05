@@ -1,0 +1,198 @@
+<div class="container">
+  <div class="heading">Search Entries</div>
+  <form
+    name="productForm"
+    [formGroup]="fg"
+    class="form-inline mt-2 mt-md-0"
+    (ngSubmit)="getEntries()"
+  >
+  <table>
+    <tr>
+      <td>
+        <select formControlName="employeeId" class="form-control"
+        style="padding: 3px; margin-left: 10px"
+        >
+          <option value="0">Select employee</option>
+          <option *ngFor="let employee of employees" value="{{ employee.docId }}">
+            {{ employee.data.employeeName }}
+          </option>
+        </select>
+      </td>
+      <td>
+        <select  class="form-control"
+        style="padding: 3px; margin-left: 10px"
+        formControlName="monthRequired"
+      >
+        <option value="01" >January</option>
+        <option value="02" >February</option>
+        <option value="03" >March</option>
+        <option value="04" >April</option>
+        <option value="05" >May</option>
+        <option value="06" >June</option>
+        <option value="07" >July</option>
+        <option value="08" >August</option>
+        <option value="09" >September</option>
+        <option value="10" >October</option>
+        <option value="11" >November</option>
+        <option value="12" >December</option>
+      </select>
+      </td>
+      <td>
+      <select  class="form-control"
+        style="padding: 3px; margin-left: 10px"
+        formControlName="yearRequired"
+      >
+        <option value="20" >2020</option>
+        <option value="21" >2021</option>
+        <option value="22" >2022</option>
+        <option value="23" >2023</option>
+        <option value="24" >2024</option>
+        <option value="25" >2025</option>
+        <option value="26" >2026</option>
+        <option value="27" >2027</option>
+        <option value="28" >2028</option>
+        <option value="29" >2029</option>
+        <option value="30" >2030</option>
+        <option value="31" >2031</option>
+      </select>
+      </td>
+      <td>
+    <input type="submit" name="btn" value="Search" style="padding: 3px; margin-left: 10px; color:whitesmoke; background-color: rgb(10, 18, 88);" class="form-control"  />
+      </td>
+    </tr>
+  </table>
+  </form>
+</div>
+  <br>
+
+  <div *ngIf="editEntryForm" class="container" style="background-color: whitesmoke;">
+    <form
+      name="productForm"
+      [formGroup]="fEdit"
+      class="form-inline mt-2 mt-md-0"
+      (ngSubmit)="editEntry()"
+    >
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Product</th>
+          <th>Employee</th>
+          <th>Quantity</th>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="text"
+              formControlName="dateAdded"
+              style="width: 100px; padding: 3px; margin: 3px"
+              class="form-control"
+            />
+          </td>
+          <td>
+            <select formControlName="productId" class="form-control" style="width: 300px;">
+              <option *ngFor="let product of products" value="{{ product.docId }}">
+                {{ product.data.productName }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <select formControlName="employeeId" class="form-control">
+              <option *ngFor="let employee of employees" value="{{ employee.docId }}">
+                {{ employee.data.employeeName }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <input
+              type="text"
+              formControlName="quantity"
+              style="width: 100px; padding: 3px; margin: 3px"
+              class="form-control"
+            />
+          </td>
+          <td>
+           <input
+              type="text"
+              formControlName="definition"
+              style="width: 250px; padding: 3px; margin: 3px"
+              class="form-control"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <tr>
+              <td>
+                <input
+                  type="submit"
+                  name="btn"
+                  value="Submit"
+                  style="margin-left: 5px"
+                  class="nice-button"
+                />
+              </td>
+              <td>
+                <input
+                  type="button"
+                  name="btn"
+                  value="Cancel"
+                  style="margin-left: 5px; background-color: red; border:1px solid rgb(77, 5, 5); padding: 3px; color:snow "
+                  class="nice-button"
+                  (click)="editEntryForm = false"
+                />
+              </td>
+            </tr>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <br>
+<div class="container">
+<div *ngIf="success">
+  <table mat-table matSort class="mat-elevation-z8" [dataSource]="dataSource" style="width: 100%;">
+    <ng-container matColumnDef="dateAdded">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.dateAdded }}</td>
+    </ng-container>
+    <ng-container matColumnDef="employeeName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Name</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.employeeName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="productName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Product</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.productName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.quantity }}</td>
+    </ng-container>
+    <ng-container matColumnDef="definition">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Addl. info</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.definition }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell  *matHeaderCellDef mat-sort-header> Actions </th>
+      <td mat-cell *matCellDef="let finalData" >
+        <button mat-raised-button color="accent" size="small"  (click)="
+        preEditEntry(
+          finalData.docId,
+          finalData.productName,
+          finalData.productId,
+          finalData.employeeName,
+          finalData.employeeId,
+          finalData.definition,
+          finalData.quantity,
+          finalData.dateAdded
+        )
+      ">Edit</button>  &nbsp;&nbsp;
+           <button mat-raised-button color="warn" size="small" (click)="deleteEntry(finalData.docId)" >Delete</button>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let finalData; columns: displayedColumns"></tr>
+  </table>
+  <div *ngIf="deleted" class="notifier">Entry deleted! </div>
+</div>
+</div>

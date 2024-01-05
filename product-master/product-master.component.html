@@ -1,0 +1,133 @@
+<div
+class="container"
+>
+  <div class="heading">Add new Product</div>
+  <form
+    name="productForm"
+    [formGroup]="fg"
+    class="form-inline mt-2 mt-md-0"
+    (ngSubmit)="addNewProduct()"
+  >
+    <input
+      type="text"
+      formControlName="productName"
+      placeholder="Product Name"
+      style="width: 300px; padding: 3px; margin: 3px"
+      class="form-control"
+    />
+   Size: <select formControlName="size" >
+      <option [selected]="true" value="1">1</option>
+      <option value="2">2</option>
+    </select>
+    <input
+      type="text"
+      formControlName="definition"
+      placeholder="Definition"
+      style="width: 300px; padding: 3px; margin: 3px"
+      class="form-control"
+    />
+    <div style="text-align: right; margin-top: 5px; width: 312px">
+      <input type="submit" name="btn" value="Add" [disabled]="!fg.valid" />
+    </div>
+  </form>
+  <div *ngIf="success" class="notifier">Product successfully added!</div>
+</div>
+<br />
+<div *ngIf="editProductForm" class="container" style="background-color: whitesmoke;" #editProd>
+  <form
+    name="productForm"
+    [formGroup]="fEdit"
+    class="form-inline mt-2 mt-md-0"
+    (ngSubmit)="editProduct()"
+  >
+    <table>
+      <tr>
+        <th>Product Name</th>
+        <th>Definition</th>
+      </tr>
+      <tr>
+          <input
+            type="hidden"
+            formControlName="productId"
+            style="width: 100px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+
+        <td>
+          <input
+            type="text"
+            formControlName="productName"
+            style="width: 400px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            formControlName="definition"
+            style="width: 100px; padding: 3px; margin: 3px"
+            class="form-control"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <tr>
+            <td>
+              <input
+                type="submit"
+                name="btn"
+                value="Submit"
+                style="margin-left: 5px"
+                class="nice-button"
+              />
+            </td>
+            <td>
+              <input
+                type="button"
+                name="btn"
+                value="Cancel"
+                style="margin-left: 5px; background-color: red; border:1px solid rgb(77, 5, 5); padding: 3px; color:snow "
+                class="nice-button"
+                (click)="editProductForm = false"
+              />
+            </td>
+          </tr>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+<br>
+<div class="container" style="background-color:rgb(235, 231, 231); padding:1px; border-radius: 8px;" >
+  <div class="heading">Existing Products </div>
+  <table class="table-heading" style="width: 100%; padding: 3px; background-color: rgb(163, 159, 159);">
+    <tr  style="border: 0px solid gray; background-color:lightgray;color: rgb(77, 75, 75); padding: 3px;">
+      <th>
+     <span style="margin-left: 3px;">  Product Name</span>
+      </th>
+      <th>
+        Definition
+      </th>
+      <th class="ml-3">
+        Actions
+      </th>
+    </tr>
+  <tr  *ngFor="let product of products" style="color:rgb(39, 39, 39); border-bottom: 1px solid rgb(136, 134, 134); padding: 3px; background-color: white;" >
+    <td >
+     <span style="margin-left: 3px;"> {{ product.productName }}</span>
+    </td>
+    <td>
+      {{ product.definition }}
+    </td>
+      <td>
+        <button mat-raised-button color="accent" style="margin-right: 8px;"
+          value="Edit"
+          (click)="preEditProduct(product.docId, product.data.productName,product.data.definition)"
+        >Edit </button>
+        <button mat-raised-button color="warn" (click)="deleteProduct(product.docId)"> Delete </button>
+      </td>
+  </table>
+</div>
+<br>
+

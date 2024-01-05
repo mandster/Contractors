@@ -1,0 +1,116 @@
+<!-- Add new Entry -->
+<div class="container">
+  <div class="heading">Add new Entry</div>
+  <form
+    name="productForm"
+    [formGroup]="fg"
+    class="form-inline mt-2 mt-md-0"
+    (ngSubmit)="addNewEntry()"
+  >
+    <input
+      type="text"
+      formControlName="dateAdded"
+      style="width: 100px; padding: 3px; margin: 3px"
+      class="form-control"
+    />
+    <select formControlName="employeeId" class="form-select">
+      <option value="0">Select Employee</option>
+      <option *ngFor="let employee of employees" [value]="employee.docId">
+        {{ employee.data.employeeName }}
+      </option>
+    </select>
+    <select formControlName="productId" class="form-select">
+      <option value="0">Select Product</option>
+      <option *ngFor="let product of products" [value]="product.docId">
+        {{ product.data.productName }}
+      </option>
+    </select>
+    <input
+      type="text"
+      formControlName="quantity"
+      placeholder="Quantity"
+      style="width: 100px; padding: 3px; margin: 3px"
+      class="form-control"
+    />
+    <input
+      type="text"
+      formControlName="definition"
+      placeholder="Definition"
+      style="width: 300px; padding: 3px; margin: 3px"
+      class="form-control"
+    />
+    <div style="text-align: right; margin-top: 5px; width: 312px">
+      <input type="submit" name="btn" value="Add" [disabled]="!fg.valid" />
+    </div>
+  </form>
+  <div class="loader" *ngIf="loading">Loading...</div>
+
+  <div *ngIf="success" class="notifier">
+    Entry successfully added!
+    <button (click)="addNew()" class="nice-button btn btn-success">Add new</button>
+  </div>
+</div>
+<br />
+
+<!-- Existing Entries -->
+<div class="container">
+  <div class="heading ml-5; width:100%">
+    Existing Entries
+    <select
+      style="padding: 3px; margin-left: 10px"
+      id="month"
+      (change)="changeMonth($event)"
+    >
+    <option value="20" [selected]="selectedYear == '20'">2020</option>
+      <option value="21" [selected]="selectedYear == '21'">2021</option>
+      <option value="22" [selected]="selectedYear == '22'">2022</option>
+      <option value="23" [selected]="selectedYear == '23'">2023</option>
+      <option value="24" [selected]="selectedYear == '24'">2024</option>
+      <option value="25" [selected]="selectedYear == '25'">2025</option>
+      <option value="26" [selected]="selectedYear == '26'">2026</option>
+      <option value="27" [selected]="selectedYear == '27'">2027</option>
+      <option value="28" [selected]="selectedYear == '28'">2028</option>
+      <option value="29" [selected]="selectedYear == '29'">2029</option>
+      <option value="30" [selected]="selectedYear == '30'">2030</option>
+      <option value="31" [selected]="selectedYear == '31'">2031</option>
+    </select>
+    <select
+      style="padding: 3px; margin-left: 10px"
+      id="year"
+      (change)="changeYear($event)"
+    >
+    <option value="02" [selected]="selectedMonth == '02'">February</option>
+      <option value="03" [selected]="selectedMonth == '03'">March</option>
+      <option value="04" [selected]="selectedMonth == '04'">April</option>
+      <option value="05" [selected]="selectedMonth == '05'">May</option>
+      <option value="06" [selected]="selectedMonth == '06'">June</option>
+      <option value="07" [selected]="selectedMonth == '07'">July</option>
+      <option value="08" [selected]="selectedMonth == '08'">August</option>
+      <option value="09" [selected]="selectedMonth == '09'">September</option>
+      <option value="10" [selected]="selectedMonth == '10'">October</option>
+      <option value="11" [selected]="selectedMonth == '11'">November</option>
+      <option value="12" [selected]="selectedMonth == '12'">December</option>
+    </select>
+  </div>
+
+  <table mat-table matSort class="mat-elevation-z8" [dataSource]="dataSource" style="width: 100%;">
+    <ng-container matColumnDef="dateAdded">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.dateAdded }}</td>
+    </ng-container>
+    <ng-container matColumnDef="employeeName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Name</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.employeeName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="productName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Product</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.productName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+      <td mat-cell *matCellDef="let finalData">{{ finalData.quantity }}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let finalData; columns: displayedColumns"></tr>
+  </table>
+</div>
